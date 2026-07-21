@@ -35,7 +35,7 @@ bool raggiungiTappa(std::list<std::string>& stati, int curr_carb, int id, const 
     stati.push_back(tree->stato);
     if (citta.compare(tree->nome) == 0) return true;
     if (id > tree->ID) return raggiungiTappa(stati,curr_carb-tree->costo,id,citta,tree->right);
-    else return raggiungiTappa(stati,curr_carb-tree->costo,id,citta,tree->right);
+    else return raggiungiTappa(stati,curr_carb-tree->costo,id,citta,tree->left);
 }
 
 int main() {
@@ -53,8 +53,13 @@ int main() {
     }
     std::list<std::string> paesi;
     if (raggiungiTappa(paesi,M,id_trovare,C,tree)) {
+        paesi.sort();
         paesi.unique();
-
+        for (const auto& paese : paesi) {
+            std::cout << paese << std::endl;
+        }
+    } else {
+        std::cout << "NO" << std::endl;
     }
     deleteTree(tree);
 }
