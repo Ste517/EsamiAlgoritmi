@@ -17,11 +17,22 @@ if g++ ./main.cpp -std=c++11 -o ./main.out > ./compilazione.log 2>&1; then
         ((total++))
         i=$(echo "$file" | grep -oE '[0-9]+')
 
-        if ./main.out < "$file" | diff -q - "TestSet/output$i.txt" > /dev/null; then
-            echo -e "Test $i: ${GREEN}OK${NC}"
+        start=$EPOCHREALTIME
+
+        ./main.out < "$file" | diff -q - "TestSet/output$i.txt" > /dev/null
+        exit_code=$?
+
+        end=$EPOCHREALTIME
+
+        start_us=$(echo "$start" | tr -d '.')
+        end_us=$(echo "$end" | tr -d '.')
+        elapsed=$(( (end_us - start_us) / 1000 ))
+
+        if [ $exit_code -eq 0 ]; then
+            echo -e "Test $i: ${GREEN}OK${NC} (${elapsed} ms)"
             ((passed++))
         else
-            echo -e "Test $i: ${RED}FALLITO${NC}"
+            echo -e "Test $i: ${RED}FALLITO${NC} (${elapsed} ms)"
         fi
     done
 
