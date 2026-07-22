@@ -66,5 +66,6 @@ int main() {
     }
     if (max == 0) std::cout << "-1\n";
     else std::cout << i_max << std::endl;
+    for (size_t i = 0; i < N; ++i) delete hashtable[i];
     return 0;
 }
