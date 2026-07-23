@@ -33,6 +33,10 @@ if g++ ./main.cpp -std=c++11 -o ./main.out > ./compilazione.log 2>&1; then
             ((passed++))
         else
             echo -e "Test $i: ${RED}FALLITO${NC} (${elapsed} ms)"
+            echo "Output completo del programma:"
+            echo -e "---------------------------------"
+            ./main.out < "$file"
+            echo -e "\n---------------------------------"
         fi
     done
 
