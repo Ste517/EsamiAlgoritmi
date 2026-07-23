@@ -11,7 +11,7 @@ struct Paziente {
     // definisco la priorità
     bool operator>(const Paziente& other) {
         if (priorita == other.priorita) {
-            if (istante == other.istante) return codice.compare(other.codice);
+            if (istante == other.istante) return codice.compare(other.codice) < 0;
             return istante < other.istante;
         }
         return priorita < other.priorita;
@@ -110,7 +110,7 @@ int main() {
         unsigned int pri = pazienti_estratti[i].first.priorita;
         unsigned int attesa = pazienti_estratti[i].second - pazienti_estratti[i].first.istante;
         std::pair<std::string,unsigned int> temp_pair;
-        if (attesa > res[pri].second) {
+        if (attesa > res[pri].second || res[pri].first.empty()) {
             res[pri].first = pazienti_estratti[i].first.codice;
             res[pri].second = attesa;
         }
