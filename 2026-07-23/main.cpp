@@ -21,6 +21,7 @@ struct Paziente {
         priorita = paz.priorita;
         istante = paz.istante;
         codice = paz.codice;
+        return *this;
     }
     Paziente() : priorita(0),istante(0),codice("") {}
     Paziente(const Paziente& paz) : priorita(paz.priorita) , istante(paz.istante) , codice(paz.codice) {}
@@ -56,7 +57,7 @@ class Heap {
         }
     }
     void down(size_t i) {
-        if (size() == 1) return;
+        if (size() <= 1) return;
         size_t son = left_child(i);
         if (son == data.size()-1) {
             if (at(son) > at(i)) exchange(i,son);
@@ -109,12 +110,12 @@ int main() {
             }
         }
     }
-    // Qui nello struct paziente uso istante come tempo di attesa
+    // Uso una coppia di valori formata dal codice del paziente e dal tempo di attesa
     std::vector<std::pair<std::string,unsigned int> > pazienti_per_pri(P);
     for (size_t i = 0; i < pazienti_estratti.size(); ++i) {
         unsigned int attesa = pazienti_estratti[i].second - pazienti_estratti[i].first.istante;
         unsigned int prio = pazienti_estratti[i].first.priorita;
-        if (pazienti_per_pri[prio].second < attesa) {
+        if (pazienti_per_pri[prio].second < attesa || pazienti_per_pri[prio].first.empty()) {
             pazienti_per_pri[prio].first = pazienti_estratti[i].first.codice;
             pazienti_per_pri[prio].second = attesa;
         }
